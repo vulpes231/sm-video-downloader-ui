@@ -12,7 +12,7 @@ import { Errormodal, Loader, Preview } from "../components";
 
 const supportedPlatforms = [
 	{
-		id: "twitter",
+		id: "x",
 		name: "twitter",
 	},
 	{
@@ -71,6 +71,12 @@ const Landing = () => {
 	}, [getVideoError]);
 
 	useEffect(() => {
+		if (videoInfo) {
+			console.log(videoInfo);
+		}
+	}, [videoInfo]);
+
+	useEffect(() => {
 		let timeout;
 		if (error) {
 			timeout = setTimeout(() => {
@@ -81,7 +87,7 @@ const Landing = () => {
 	}, [error]);
 
 	return (
-		<section className="p-6 h-screen w-full bg-[#000] text-[#fff] flex items-center justify-center flex-col gap-10 relative">
+		<section className="p-6 min-h-screen w-full bg-[#000] text-[#fff] flex items-center justify-center flex-col gap-10 relative">
 			<div className="w-full max-w-md">
 				<h3 className="text-[22px] font-semibold md:text-[30px] text-center mb-6">
 					Download Video Clips from any Social Media
@@ -131,7 +137,8 @@ const Landing = () => {
 					</button>
 				</form>
 			</div>
-			<div className={!videoInfo ? "hidden" : "w-full max-w-md"}>
+			<div className={!videoInfo ? "hidden" : "w-full max-w-md bg-red-200"}>
+				{/* <p>Infoooo</p> */}
 				{videoInfo && <Preview videoInfo={videoInfo} />}
 			</div>
 			<small className="text-[#979797] text-[12px] font-normal">

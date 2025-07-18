@@ -7,4 +7,6 @@ const sendError = (err) => {
 	}
 };
 
-export { sendError };
+const devUrl = "http://localhost:3000";
+
+export { sendError, devUrl };

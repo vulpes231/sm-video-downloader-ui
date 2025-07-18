@@ -1,26 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { sendError } from "../constants";
+import { devUrl } from "../constants";
 import axios from "axios";
 
 const initialState = {
 	getVideoLoading: false,
-	getVideoError: false,
-	videoInfo: null,
+	getVideoError: null,
+	videoInfo: null, // Now stores full response data
 };
 
 export const getVideoInfo = createAsyncThunk(
 	"video/getVideoInfo",
-	async (formData) => {
+	async (formData, { rejectWithValue }) => {
 		try {
-			const url = "";
-			const response = await axios.post(url, formData, {
-				headers: {
-					"Content-Type": "application/json",
-				},
+			const response = await axios.post(`${devUrl}/process`, formData, {
+				headers: { "Content-Type": "application/json" },
 			});
 			return response.data;
 		} catch (error) {
-			sendError(error);
+			// Proper error handling that triggers .rejected case
+			return rejectWithValue(error.response?.data?.message || error.message);
 		}
 	}
 );
@@ -28,22 +26,30 @@ export const getVideoInfo = createAsyncThunk(
 const getVideoSlice = createSlice({
 	name: "video",
 	initialState,
+	reducers: {
+		resetVideoState: () => initialState,
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getVideoInfo.pending, (state) => {
 				state.getVideoLoading = true;
+				state.getVideoError = null;
 			})
 			.addCase(getVideoInfo.fulfilled, (state, action) => {
 				state.getVideoLoading = false;
-				state.getVideoError = false;
-				state.videoInfo = action.payload.info;
+				state.videoInfo = {
+					// Preserve all response data
+					...action.payload,
+					directUrl: action.payload.downloadOptions?.directUrl,
+					proxyUrl: action.payload.downloadOptions?.proxyUrl,
+				};
 			})
 			.addCase(getVideoInfo.rejected, (state, action) => {
 				state.getVideoLoading = false;
-				state.getVideoError = action.error.message;
-				state.videoInfo = false;
+				state.getVideoError = action.payload || "Failed to download video";
 			});
 	},
 });
 
+export const { resetVideoState } = getVideoSlice.actions;
 export default getVideoSlice.reducer;

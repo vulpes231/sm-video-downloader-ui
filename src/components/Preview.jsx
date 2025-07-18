@@ -3,9 +3,14 @@ import React from "react";
 const Preview = ({ videoInfo }) => {
 	return (
 		<div>
-			<video src={videoInfo.previewUrl} controls />
-			<a href={videoInfo.downloadUrl} download>
-				Download
+			<video
+				src={videoInfo.downloadOptions.directUrl}
+				controls
+				className="h-[400px] w-full"
+			/>
+
+			<a href={videoInfo.downloadOptions.downloadUrl} download>
+				Download Video
 			</a>
 		</div>
 	);
