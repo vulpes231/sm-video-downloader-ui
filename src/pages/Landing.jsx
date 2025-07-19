@@ -137,7 +137,7 @@ const Landing = () => {
 					</button>
 				</form>
 			</div>
-			<div className={!videoInfo ? "hidden" : "w-full max-w-md bg-red-200"}>
+			<div className={!videoInfo ? "hidden" : "w-full max-w-md "}>
 				{/* <p>Infoooo</p> */}
 				{videoInfo && <Preview videoInfo={videoInfo} />}
 			</div>
