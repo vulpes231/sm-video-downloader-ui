@@ -23,14 +23,14 @@ const supportedPlatforms = [
 		id: "instagram",
 		name: "instagram",
 	},
-	{
-		id: "tiktok",
-		name: "tiktok",
-	},
-	{
-		id: "youtube",
-		name: "youtube",
-	},
+	// {
+	// 	id: "tiktok",
+	// 	name: "tiktok",
+	// },
+	// {
+	// 	id: "youtube",
+	// 	name: "youtube",
+	// },
 ];
 
 const Landing = () => {
@@ -98,8 +98,8 @@ const Landing = () => {
 					<FaTwitter className="text-2xl" title="Twitter" />
 					<FaFacebook className="text-2xl" title="Facebook" />
 					<FaInstagram className="text-2xl" title="Instagram" />
-					<FaTiktok className="text-2xl" title="TikTok" />
-					<FaYoutube className="text-2xl" title="YouTube" />
+					{/* <FaTiktok className="text-2xl" title="TikTok" /> */}
+					{/* <FaYoutube className="text-2xl" title="YouTube" /> */}
 				</div>
 
 				<form onSubmit={searchVideo} className="flex flex-col gap-4">
@@ -137,7 +137,7 @@ const Landing = () => {
 					</button>
 				</form>
 			</div>
-			<div className={!videoInfo ? "hidden" : "w-full max-w-md "}>
+			<div className={!videoInfo ? "hidden" : "w-full max-w-md"}>
 				{/* <p>Infoooo</p> */}
 				{videoInfo && <Preview videoInfo={videoInfo} />}
 			</div>
