@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { devUrl } from "../constants";
+import { devUrl, liveUrl } from "../constants";
 import axios from "axios";
 
 const initialState = {
@@ -12,7 +12,7 @@ export const getVideoInfo = createAsyncThunk(
 	"video/getVideoInfo",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await axios.post(`${devUrl}/process`, formData, {
+			const response = await axios.post(`${liveUrl}/process`, formData, {
 				headers: { "Content-Type": "application/json" },
 			});
 			return response.data;

@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { liveUrl } from "../constants";
 
 const Preview = ({ videoInfo }) => {
-	const BACKEND_BASE_URL =
-		import.meta.env.VITE_BACKEND_URL || "https://sm-video-server.onrender.com";
+	const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL || liveUrl;
+
+	useEffect(() => {
+		if (videoInfo) {
+			console.log(videoInfo.downloadOptions);
+		}
+	}, [videoInfo]);
 
 	return (
 		<div className="max-w-4xl mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg">

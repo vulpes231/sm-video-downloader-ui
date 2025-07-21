@@ -8,5 +8,6 @@ const sendError = (err) => {
 };
 
 const devUrl = "http://localhost:3000";
+const liveUrl = "https://sm-video-server.onrender.com";
 
-export { sendError, devUrl };
+export { sendError, devUrl, liveUrl };
