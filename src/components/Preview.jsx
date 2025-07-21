@@ -2,7 +2,7 @@ import React from "react";
 
 const Preview = ({ videoInfo }) => {
 	const BACKEND_BASE_URL =
-		import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+		import.meta.env.VITE_BACKEND_URL || "https://sm-video-server.onrender.com";
 
 	return (
 		<div className="max-w-4xl mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg">
