@@ -20,10 +20,10 @@ const Loader = ({ text = "Loading..." }) => {
 					className="relative h-16 w-16"
 				>
 					{/* Gradient donut ring */}
-					<div className="absolute inset-0 rounded-full border-8 border-transparent border-t-green-500 border-r-green-500/40 border-b-green-500/60 border-l-green-500/80" />
+					<div className="absolute inset-0 rounded-full border-8 border-transparent border-t-[#1EA8D1] border-r-[#1EA8D1]/40 border-b-[#1EA8D1]/60 border-l-[#1EA8D1]/80" />
 
 					{/* Inner circle to create donut hole */}
-					<div className="absolute inset-2 rounded-full bg-white/60" />
+					<div className="absolute inset-2 rounded-full bg-white/20" />
 				</motion.div>
 
 				<motion.h3

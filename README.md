@@ -1,4 +1,4 @@
-# Social Media Video Downloader 🚀
+# **ReelFetch**🚀
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18.2-blue)](https://reactjs.org/)
