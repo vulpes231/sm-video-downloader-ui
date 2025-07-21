@@ -6,11 +6,11 @@ const Preview = ({ videoInfo }) => {
 
 	return (
 		<div className="max-w-4xl mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-			<div className="aspect-auto relative" style={{ height: "400px" }}>
+			<div className="relative w-full aspect-video">
 				<video
 					src={videoInfo.downloadOptions.directUrl}
 					controls
-					className="absolute inset-0 w-full h-full object-contain bg-black"
+					className="w-full h-full object-contain bg-black"
 					poster={videoInfo.thumbnail || ""}
 				/>
 			</div>

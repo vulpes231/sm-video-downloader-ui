@@ -145,7 +145,7 @@ const Landing = () => {
 				SM Video Downloader &copy; {currentYear}. All Rights Reserved
 			</small>
 			{getVideoLoading && <Loader text={"Loading video..."} />}
-			{error && <Errormodal error={error} />}
+			{error && <Errormodal error={error} onClose={() => setError("")} />}
 		</section>
 	);
 };
