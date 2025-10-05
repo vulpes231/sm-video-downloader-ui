@@ -12,7 +12,7 @@ export const getVideoInfo = createAsyncThunk(
 	"video/getVideoInfo",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await axios.post(`${liveUrl}/process`, formData, {
+			const response = await axios.post(`${devUrl}/process`, formData, {
 				headers: { "Content-Type": "application/json" },
 			});
 			return response.data;

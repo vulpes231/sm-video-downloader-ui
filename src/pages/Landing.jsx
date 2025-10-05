@@ -64,18 +64,18 @@ const buttonTap = {
 	scale: 0.98,
 };
 
-const Landing = () => {
-	const PlatformIcon = ({ icon: Icon, active, platform, color }) => (
-		<motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.9 }}>
-			<Icon
-				className={`text-2xl cursor-pointer transition-colors ${
-					active === platform ? color : "text-gray-400 hover:text-gray-300"
-				}`}
-				title={platform.charAt(0).toUpperCase() + platform.slice(1)}
-			/>
-		</motion.div>
-	);
+const PlatformIcon = ({ icon: Icon, active, platform, color }) => (
+	<motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.9 }}>
+		<Icon
+			className={`text-2xl cursor-pointer transition-colors ${
+				active === platform ? color : "text-gray-400 hover:text-gray-300"
+			}`}
+			title={platform.charAt(0).toUpperCase() + platform.slice(1)}
+		/>
+	</motion.div>
+);
 
+const Landing = () => {
 	const dispatch = useDispatch();
 	const [form, setForm] = useState({
 		url: "",
@@ -140,7 +140,7 @@ const Landing = () => {
 					variants={itemVariants}
 					className="text-[22px] font-semibold md:text-[30px] text-center mb-6"
 				>
-					Download Video Clips from any Social Media
+					Download SM Reels
 				</motion.h3>
 
 				{/* Platform icons with animation */}
@@ -188,15 +188,19 @@ const Landing = () => {
 						))}
 					</motion.select>
 
-					<motion.input
-						whileFocus={{ scale: 1.01 }}
-						type="url"
-						onChange={handleInput}
-						value={form.url}
-						placeholder="Paste video URL"
-						className="border border-[#505050] h-[40px] md:h-[48px] w-full outline-none text-[16px] placeholder:text-[14px] py-2 px-4 rounded-[5px] bg-black"
-						name="url"
-					/>
+					{form.platform === "x" ? (
+						<motion.input
+							whileFocus={{ scale: 1.01 }}
+							type="url"
+							onChange={handleInput}
+							value={form.url}
+							placeholder="Paste video URL"
+							className="border border-[#505050] h-[40px] md:h-[48px] w-full outline-none text-[16px] placeholder:text-[14px] py-2 px-4 rounded-[5px] bg-black"
+							name="url"
+						/>
+					) : (
+						<h6>coming soon...</h6>
+					)}
 
 					<motion.button
 						whileHover={buttonHover}

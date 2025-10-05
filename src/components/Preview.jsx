@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { liveUrl } from "../constants";
+import { liveUrl, devUrl } from "../constants";
 
 const Preview = ({ videoInfo }) => {
-	const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL || liveUrl;
+	const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL || devUrl;
 
 	useEffect(() => {
 		if (videoInfo) {
