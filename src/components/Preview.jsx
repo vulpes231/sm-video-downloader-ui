@@ -1,36 +1,32 @@
 import React, { useEffect } from "react";
 import { liveUrl, devUrl } from "../constants";
+import { useQuery } from "@tanstack/react-query";
+import { downloadVideo } from "../features/api";
 
 const Preview = ({ videoInfo }) => {
 	const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL || devUrl;
-
-	useEffect(() => {
-		if (videoInfo) {
-			console.log(videoInfo.downloadOptions);
-		}
-	}, [videoInfo]);
 
 	return (
 		<div className="max-w-4xl mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg">
 			<div className="relative w-full aspect-video">
 				<video
-					src={videoInfo.downloadOptions.directUrl}
+					src={videoInfo?.downloadOptions?.directUrl}
 					controls
 					className="w-full h-full object-contain bg-black"
-					poster={videoInfo.thumbnail || ""}
+					poster={videoInfo?.thumbnail || ""}
 				/>
 			</div>
 
 			<div className="p-4 bg-gray-800">
 				<div className="flex flex-col space-y-4">
-					{videoInfo.title && (
+					{videoInfo?.title && (
 						<h2 className="text-white text-lg font-semibold truncate">
 							{videoInfo.title}
 						</h2>
 					)}
 
 					<a
-						href={`${BACKEND_BASE_URL}${videoInfo.downloadOptions.downloadUrl}`}
+						href={`${BACKEND_BASE_URL}${videoInfo?.downloadOptions?.downloadUrl}`}
 						download
 						className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg text-center transition-colors duration-200"
 					>

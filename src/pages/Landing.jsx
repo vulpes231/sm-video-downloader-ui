@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getVideoInfo } from "../features/getVideoSlice";
 import {
 	FaFacebook,
 	FaInstagram,
@@ -10,11 +8,19 @@ import {
 } from "react-icons/fa";
 import { Errormodal, Loader, Preview } from "../components";
 import { motion } from "framer-motion";
+import { useMutation } from "@tanstack/react-query";
+import { downloadVideo } from "../features/api";
+import {
+	itemVariants,
+	containerVariants,
+	buttonHover,
+	buttonTap,
+} from "../constants";
 // import { logo } from "../assets";
 
 const supportedPlatforms = [
 	{
-		id: "x",
+		id: "twitter",
 		name: "twitter",
 	},
 	{
@@ -35,35 +41,6 @@ const supportedPlatforms = [
 	// },
 ];
 
-const containerVariants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-			delayChildren: 0.2,
-		},
-	},
-};
-
-const itemVariants = {
-	hidden: { y: 20, opacity: 0 },
-	visible: {
-		y: 0,
-		opacity: 1,
-		transition: { type: "spring", stiffness: 100 },
-	},
-};
-
-const buttonHover = {
-	scale: 1.02,
-	transition: { type: "spring", stiffness: 300 },
-};
-
-const buttonTap = {
-	scale: 0.98,
-};
-
 const PlatformIcon = ({ icon: Icon, active, platform, color }) => (
 	<motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.9 }}>
 		<Icon
@@ -76,17 +53,23 @@ const PlatformIcon = ({ icon: Icon, active, platform, color }) => (
 );
 
 const Landing = () => {
-	const dispatch = useDispatch();
 	const [form, setForm] = useState({
 		url: "",
 		platform: "",
 	});
-	// const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState("");
 
-	const { getVideoLoading, getVideoError, videoInfo } = useSelector(
-		(state) => state.video
-	);
+	const [error, setError] = useState("");
+	const [result, setResult] = useState("");
+
+	const mutation = useMutation({
+		mutationFn: downloadVideo,
+		onError: (err) => {
+			setError(err);
+		},
+		onSuccess: (data) => {
+			console.log(data);
+		},
+	});
 
 	const currentYear = new Date().getFullYear();
 
@@ -97,8 +80,7 @@ const Landing = () => {
 			setError("Please select a platform and paste a URL");
 			return;
 		}
-
-		dispatch(getVideoInfo(form));
+		mutation.mutate(form);
 	};
 
 	const handleInput = (e) => {
@@ -107,21 +89,10 @@ const Landing = () => {
 	};
 
 	useEffect(() => {
-		if (getVideoError) {
-			setError(getVideoError);
-		}
-	}, [getVideoError]);
-
-	useEffect(() => {
-		if (videoInfo) {
-			console.log(videoInfo);
-		}
-	}, [videoInfo]);
-
-	useEffect(() => {
 		let timeout;
 		if (error) {
 			timeout = setTimeout(() => {
+				mutation.reset();
 				setError("");
 			}, 3000);
 		}
@@ -188,7 +159,7 @@ const Landing = () => {
 						))}
 					</motion.select>
 
-					{form.platform === "x" ? (
+					{form.platform === "twitter" ? (
 						<motion.input
 							whileFocus={{ scale: 1.01 }}
 							type="url"
@@ -207,9 +178,9 @@ const Landing = () => {
 						whileTap={buttonTap}
 						className="w-full bg-[#1EA8D1] h-[40px] md:h-[48px] rounded-[5px] cursor-pointer flex items-center justify-center font-semibold text-[14px] md:text-[16px]"
 						type="submit"
-						disabled={getVideoLoading}
+						disabled={mutation.isPending}
 					>
-						{getVideoLoading ? (
+						{mutation.isPending ? (
 							<motion.span
 								animate={{ opacity: [0.6, 1, 0.6] }}
 								transition={{ repeat: Infinity, duration: 1.5 }}
@@ -226,12 +197,12 @@ const Landing = () => {
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}
 				animate={{
-					opacity: videoInfo ? 1 : 0,
-					y: videoInfo ? 0 : 20,
+					opacity: result ? 1 : 0,
+					y: result ? 0 : 20,
 				}}
 				className="w-full max-w-md"
 			>
-				{videoInfo && <Preview videoInfo={videoInfo} />}
+				{mutation.isSuccess && <Preview videoInfo={result} />}
 			</motion.div>
 
 			<motion.footer
@@ -253,7 +224,7 @@ const Landing = () => {
 				<p>© {currentYear} ReelFetch. All rights reserved.</p>
 			</motion.footer>
 
-			{getVideoLoading && <Loader text={"Loading video..."} />}
+			{mutation.isPending && <Loader text={"Loading video..."} />}
 			{error && <Errormodal error={error} onClose={() => setError("")} />}
 		</motion.section>
 	);
