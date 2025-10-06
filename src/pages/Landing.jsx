@@ -67,7 +67,7 @@ const Landing = () => {
 			setError(err);
 		},
 		onSuccess: (data) => {
-			console.log(data);
+			setResult(data);
 		},
 	});
 
@@ -202,7 +202,7 @@ const Landing = () => {
 				}}
 				className="w-full max-w-md"
 			>
-				{mutation.isSuccess && <Preview videoInfo={result} />}
+				{result !== "" && <Preview videoInfo={result} />}
 			</motion.div>
 
 			<motion.footer

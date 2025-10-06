@@ -1,8 +1,8 @@
 import axios from "axios";
-import { devUrl } from "../constants";
+import { devUrl, liveUrl } from "../constants";
 
 const api = axios.create({
-	baseURL: `${devUrl}`,
+	baseURL: `${liveUrl}`,
 	headers: {
 		"Content-Type": "application/json",
 	},
@@ -10,9 +10,7 @@ const api = axios.create({
 
 export async function downloadVideo(formData) {
 	try {
-		// console.log(formData);
 		const response = await api.post("/process", formData);
-		// console.log(response.data);
 		return response.data.data;
 	} catch (error) {
 		console.log(error);

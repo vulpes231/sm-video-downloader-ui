@@ -1,19 +1,40 @@
 import React, { useEffect } from "react";
-import { liveUrl, devUrl } from "../constants";
-import { useQuery } from "@tanstack/react-query";
-import { downloadVideo } from "../features/api";
 
 const Preview = ({ videoInfo }) => {
-	const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL || devUrl;
+	// Function to trigger download
+	const handleDownload = async (videoUrl, quality) => {
+		try {
+			const filename = `video_${quality}_${Date.now()}.mp4`;
+
+			// Fetch the video blob and create download
+			const response = await fetch(videoUrl);
+			const blob = await response.blob();
+			const blobUrl = URL.createObjectURL(blob);
+
+			// Create temporary anchor element
+			const link = document.createElement("a");
+			link.href = blobUrl;
+			link.download = filename;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+
+			// Clean up blob URL
+			URL.revokeObjectURL(blobUrl);
+		} catch (error) {
+			console.error("Download failed:", error);
+			// Fallback to direct download
+			window.open(videoUrl, "_blank");
+		}
+	};
 
 	return (
 		<div className="max-w-4xl mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg">
 			<div className="relative w-full aspect-video">
 				<video
-					src={videoInfo?.downloadOptions?.directUrl}
+					src={videoInfo?.url?.[0]?.hd}
 					controls
 					className="w-full h-full object-contain bg-black"
-					poster={videoInfo?.thumbnail || ""}
 				/>
 			</div>
 
@@ -25,27 +46,22 @@ const Preview = ({ videoInfo }) => {
 						</h2>
 					)}
 
-					<a
-						href={`${BACKEND_BASE_URL}${videoInfo?.downloadOptions?.downloadUrl}`}
-						download
-						className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg text-center transition-colors duration-200"
-					>
-						Download Video
-					</a>
+					<div className="flex flex-col space-y-2">
+						{videoInfo?.url?.map((qualityObj, index) => {
+							const qualityKey = Object.keys(qualityObj)[0];
+							const videoUrl = qualityObj[qualityKey];
 
-					{videoInfo.metadata && (
-						<div className="grid grid-cols-2 gap-2 text-gray-300 text-sm">
-							{videoInfo.metadata.duration && (
-								<div>Duration: {videoInfo.metadata.duration}</div>
-							)}
-							{videoInfo.metadata.resolution && (
-								<div>Resolution: {videoInfo.metadata.resolution}</div>
-							)}
-							{videoInfo.metadata.size && (
-								<div>Size: {videoInfo.metadata.size}</div>
-							)}
-						</div>
-					)}
+							return (
+								<button
+									key={index}
+									onClick={() => handleDownload(videoUrl, qualityKey)}
+									className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg text-center transition-colors duration-200"
+								>
+									Download {qualityKey.toUpperCase()} quality
+								</button>
+							);
+						})}
+					</div>
 				</div>
 			</div>
 		</div>
