@@ -11,7 +11,7 @@ const ErrorModal = ({ error, onClose }) => {
 				animate={{ opacity: 1, y: 0, scale: 1 }}
 				exit={{ opacity: 0, y: -20, scale: 0.95 }}
 				transition={{ type: "spring", damping: 20, stiffness: 300 }}
-				className="fixed top-5 right-5 z-50 bg-white shadow-lg rounded-xl overflow-hidden border border-red-100 max-w-xs"
+				className="fixed top-5 right-5 z-50 bg-white dark:bg-black shadow-lg rounded-xl overflow-hidden border border-red-100 max-w-xs"
 			>
 				<div className="relative p-4">
 					<div className="flex items-start gap-3">

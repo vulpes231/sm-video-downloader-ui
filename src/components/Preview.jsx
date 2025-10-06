@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const Preview = ({ videoInfo }) => {
-	// Function to trigger download
 	const handleDownload = async (videoUrl, quality) => {
 		try {
 			const filename = `video_${quality}_${Date.now()}.mp4`;

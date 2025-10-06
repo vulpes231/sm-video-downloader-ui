@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-	FaFacebook,
-	FaInstagram,
-	FaTiktok,
-	FaTwitter,
-	FaYoutube,
-} from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
 import { Errormodal, Loader, Preview } from "../components";
 import { motion } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -16,7 +10,6 @@ import {
 	buttonHover,
 	buttonTap,
 } from "../constants";
-// import { logo } from "../assets";
 
 const supportedPlatforms = [
 	{
@@ -31,14 +24,10 @@ const supportedPlatforms = [
 		id: "instagram",
 		name: "instagram",
 	},
-	// {
-	// 	id: "tiktok",
-	// 	name: "tiktok",
-	// },
-	// {
-	// 	id: "youtube",
-	// 	name: "youtube",
-	// },
+	{
+		id: "tiktok",
+		name: "tiktok",
+	},
 ];
 
 const PlatformIcon = ({ icon: Icon, active, platform, color }) => (
@@ -104,7 +93,7 @@ const Landing = () => {
 			initial="hidden"
 			animate="visible"
 			variants={containerVariants}
-			className="p-6 min-h-screen w-full bg-[#000] text-[#fff] flex items-center justify-center flex-col gap-10 relative"
+			className="p-6 min-h-screen w-full bg-white dark:bg-black  flex items-center justify-center flex-col gap-10 relative"
 		>
 			<motion.div variants={itemVariants} className="w-full max-w-md">
 				<motion.h3
@@ -122,7 +111,7 @@ const Landing = () => {
 					<PlatformIcon
 						icon={FaTwitter}
 						active={form.platform}
-						platform="x"
+						platform="twitter"
 						color="text-cyan-500"
 					/>
 					<PlatformIcon
@@ -137,6 +126,12 @@ const Landing = () => {
 						platform="instagram"
 						color="text-pink-500"
 					/>
+					<PlatformIcon
+						icon={FaTiktok}
+						active={form.platform}
+						platform="tiktok"
+						color="text-black dark:text-white"
+					/>
 				</motion.div>
 
 				<motion.form
@@ -146,7 +141,7 @@ const Landing = () => {
 				>
 					<motion.select
 						whileFocus={{ scale: 1.01 }}
-						className="border border-[#505050] h-[40px] md:h-[48px] w-full outline-none text-[16px] rounded-[5px] py-2 px-4 bg-black capitalize"
+						className="border border-[#505050] h-[40px] md:h-[48px] w-full outline-none text-[16px] rounded-[5px] py-2 px-4 capitalize"
 						name="platform"
 						onChange={handleInput}
 						value={form.platform}
@@ -159,19 +154,15 @@ const Landing = () => {
 						))}
 					</motion.select>
 
-					{form.platform === "twitter" ? (
-						<motion.input
-							whileFocus={{ scale: 1.01 }}
-							type="url"
-							onChange={handleInput}
-							value={form.url}
-							placeholder="Paste video URL"
-							className="border border-[#505050] h-[40px] md:h-[48px] w-full outline-none text-[16px] placeholder:text-[14px] py-2 px-4 rounded-[5px] bg-black"
-							name="url"
-						/>
-					) : (
-						<h6>coming soon...</h6>
-					)}
+					<motion.input
+						whileFocus={{ scale: 1.01 }}
+						type="url"
+						onChange={handleInput}
+						value={form.url}
+						placeholder="Paste video URL"
+						className="border border-[#505050] h-[40px] md:h-[48px] w-full outline-none text-[16px] placeholder:text-[14px] py-2 px-4 rounded-[5px] "
+						name="url"
+					/>
 
 					<motion.button
 						whileHover={buttonHover}
